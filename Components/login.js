@@ -33,7 +33,7 @@ const Login = (props) => {
                 {hasAccount ? (
                 <>
                     <View style={styles.container}>
-                        <Text style={styles.logo}>Fluke</Text>
+                        <Text style={styles.logo}>WeightExchange</Text>
                         <View style={styles.inputView} >
                             <TextInput
                                 style={styles.inputText}

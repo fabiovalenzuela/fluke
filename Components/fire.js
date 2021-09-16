@@ -1,23 +1,15 @@
-// Import the functions you need from the SDKs you need
-import 'firebase/auth';
-import 'firebase/app';
-import 'firebase/database';
-import firebase, { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from 'firebase';
+// firebase code for app, able to call and send things to database with the fire import in other classes
+var firebaseConfig = {
+  apiKey: "AIzaSyDxRk9cR-Jyi3bkjt8Tn9yyesYW1H8x-o8",
+  authDomain: "weightapp-85a36.firebaseapp.com",
+  databaseURL: "https://weightapp-85a36-default-rtdb.firebaseio.com",
+  projectId: "weightapp-85a36",
+  storageBucket: "weightapp-85a36.appspot.com",
+  messagingSenderId: "226771835324",
+  appId: "1:226771835324:web:126b94e30d51156daa33b9"
+  };
+  // Initialize Firebase
+  const fire = firebase.initializeApp(firebaseConfig);
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCw2yy5RLa7QH-BS1ZGxw8YbZi3ea40XC4",
-  authDomain: "fluke-b0ecf.firebaseapp.com",
-  databaseURL: "https://fluke-b0ecf-default-rtdb.firebaseio.com",
-  projectId: "fluke-b0ecf",
-  storageBucket: "fluke-b0ecf.appspot.com",
-  messagingSenderId: "861347454208",
-  appId: "1:861347454208:web:4b0b750c63200586e667e5"
-};
-
-// Initialize Firebase
-const fire = firebase.initializeApp(firebaseConfig);
-
-export default fire;
+  export default fire;
