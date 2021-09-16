@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import fire from './Components/fire';
-import Login from './Components/login';
-import MainNavigation from './Components/MainNavigation';
-import ForgotPassword from './Components/ForgotPassword';
+import fire from './components/fire';
+import Login from './components/login';
+import MainNavigation from './components/MainNavigation';
+import ForgotPassword from './components/ForgotPassword';
 
 export default function App() {
     //react hooks for objects
