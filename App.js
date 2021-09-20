@@ -3,8 +3,7 @@ import React from 'react';
 //import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from'@react-navigation/stack';
-
-import NewUserScreen from './screens/NewUserScreen';
+import Providers from './navigation';
 import LoginScreen from './screens/LoginScreen';
 
 const AppStack =  createStackNavigator();
@@ -15,13 +14,12 @@ const App = () => {
       <AppStack.Navigator
       headerMode="none"
       >
-      <AppStack.Screen name="NewUserScreen" component={NewUserScreen} />
       <AppStack.Screen name="LoginScreen" component={LoginScreen} />
       </AppStack.Navigator>
     </NavigationContainer>
     );
+  }
   export default App;
-}
 // export default function App() {
 //   return (
 //     <View style={styles.container}>
