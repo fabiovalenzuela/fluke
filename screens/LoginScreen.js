@@ -5,12 +5,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const LoginScreen = ({navigation}) => {
     return (
-        <View style={style.container}>
+        <View style={styles.container}>
             <AntDesign name ="user" size={25} color="#666" />
             <Text style={{fontFamily: 'Kufam-SemiBoldItalic',}}>Login Page</Text>
             <Button
             title="Click Here"
-            onPress={() => Navigation.navigate('Signup')}
+            onPress={() => navigation.navigate('Signup')}
             />
         </View>
     );
