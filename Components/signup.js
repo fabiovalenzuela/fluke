@@ -20,9 +20,6 @@ const SignUp =(props)=>{
         setLastName,
         setSex,
         setAge,
-        setFeet,
-        setInches,
-        setWeight,
     } = props;
 
     return (
@@ -96,47 +93,6 @@ const SignUp =(props)=>{
             autoCapitalize="none"
             placeholderTextColor="#BDBDBD"
             onChangeText={setAge}
-
-
-            />
-        </View>
-
-        <View style={{flexDirection:"row", alignItems:'left'}}>
-            <View style={{width:'40%',
-            backgroundColor:"#ffffff",
-            borderRadius:25,
-            height:60,
-            marginBottom:20,
-            justifyContent:"center",
-            padding:20}}>
-                <TextInput
-                placeholder="feet"
-                autoCapitalize="none"
-                placeholderTextColor="#BDBDBD"
-                onChangeText={setFeet}
-                />
-            </View>
-            <View style={{width:'40%',
-            backgroundColor:"#ffffff",
-            borderRadius:25,
-            height:60,
-            marginBottom:20,
-            justifyContent:"center",
-            padding:20}}>
-                <TextInput
-                placeholder="inches"
-                autoCapitalize="none"
-                placeholderTextColor="#BDBDBD"
-                onChangeText={setInches}
-                />
-            </View>
-        </View>
-        <View style={styles.inputView}>
-            <TextInput
-            placeholder="Weight"
-            autoCapitalize="none"
-            placeholderTextColor="#BDBDBD"
-            onChangeText={setWeight}
 
 
             />

@@ -18,9 +18,6 @@ const Login = (props) => {
         setLastName,
         setSex,
         setAge,
-        setFeet,
-        setInches,
-        setWeight,
     } = props;
 
     function forgotPasswordHandler() {
@@ -80,10 +77,7 @@ const Login = (props) => {
                         setFirstName = {setFirstName}
                         setLastName = {setLastName}
                         setSex = {setSex}
-                        setAge = {setAge}
-                        setFeet = {setFeet}
-                        setInches = {setInches}
-                        setWeight = {setWeight}/>
+                        setAge = {setAge}/>
 
                 )}
             </>

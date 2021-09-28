@@ -18,9 +18,6 @@ export default function App() {
         const [lastName, setLastName] = useState("");
         const [sex, setSex] = useState("");
         const [age, setAge] = useState(-1);
-        const [weight, setWeight] = useState(-1);
-        const [feet, setFeet] = useState(-1);
-        const [inches, setInches] = useState(-1);
 
         //clears any values prior to startup
         const clearInputs = () => {
@@ -79,10 +76,6 @@ export default function App() {
                     lastName: lastName,
                     sex: sex,
                     age: age,
-                    weight: weight,
-                    feet: feet,
-                    inches: inches,
-                    caloriesConsumed: 0,
             });
         };
 
@@ -133,9 +126,6 @@ export default function App() {
                     setLastName = {setLastName}
                     setSex = {setSex}
                     setAge = {setAge}
-                    setFeet = {setFeet}
-                    setInches = {setInches}
-                    setWeight = {setWeight}
                     />
                 </>
 
