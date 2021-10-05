@@ -202,15 +202,16 @@ public class MainActivity extends AppCompatActivity {
         private ServerSocket serverSocket;
 
         @Override
-        public void run(){
-            try{
-                serverSocket = new ServerSocket( 8888);
+        public void run() {
+            try {
+                serverSocket = new ServerSocket(8888);
                 socket = serverSocket.accept();
                 inputStream = socket.getInputStream();
                 outputStream = socket.getOutputStream();
 
-            }catch (IOException e){
-                e.printStackTrace();;
+            } catch (IOException e) {
+                e.printStackTrace();
+                ;
             }
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
@@ -222,22 +223,22 @@ public class MainActivity extends AppCompatActivity {
                     byte[] buffer = new byte[1024];
                     int bytes;
 
-                    while (socket!=null){
-                        try{
+                    while (socket != null) {
+                        try {
                             bytes = inputStream.read(buffer);
-                            if(bytes>0){
+                            if (bytes > 0) {
                                 int finalBytes = bytes;
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        String tempMSG = new String(buffer,0,finalBytes);
+                                        String tempMSG = new String(buffer, 0, finalBytes);
                                         msg_box.setText(tempMSG);
 
 
                                     }
                                 });
                             }
-                        }catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
 
@@ -245,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+        }
     }
 
     public class ClientClass extends Thread {
