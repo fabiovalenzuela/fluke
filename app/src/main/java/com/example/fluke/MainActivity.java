@@ -33,7 +33,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -191,6 +193,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+    }
+
+    public class ServerClass extends Thread {
+        ServerSocket hostAdd;
+        private InputStream inputStream;
+        private OutputStream outputStream;
+        private ServerSocket serverSocket;
+
+        @Override
+        public void run(){
+            try{
+                serverSocket = new ServerSocket( 8888);
+                socket = serverSocket.accept();
+                inputStream = socket.getInputStream();
+                outputStream = socket.getOutputStream();
+
+            }catch (IOException e){
+                e.printStackTrace();;
+            }
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    byte[] buffer = new byte[1024];
+                    int bytes;
+
+                    while (socket!=null){
+                        try{
+                            bytes = inputStream.read(buffer);
+                            if(bytes>0){
+                                int finalBytes = bytes;
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String tempMSG = new String(buffer,0,finalBytes);
+                                        msg_box.setText(tempMSG);
+
+
+                                    }
+                                });
+                            }
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+            });
     }
 
     public class ClientClass extends Thread {
