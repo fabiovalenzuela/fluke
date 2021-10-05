@@ -36,6 +36,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -61,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
     Socket socket;
 
+    ServerClass serverClass;
+    ClientClass clientClass;
+
+    boolean isHost;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,31 +77,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void exqListener() {
-        onOffBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                startActivityForResult(intent, 1);
-            }
+        onOffBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+            startActivityForResult(intent, 1);
         });
-        discoverBtn.setOnClickListener(new View.OnClickListener() {
+        discoverBtn.setOnClickListener(view -> manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
-            public void onClick(View view) {
-                manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        connectionStatus.setText("Discovery Started");
-                    }
-
-                    @Override
-                    public void onFailure(int i) {
-                        connectionStatus.setText("Discovery Not Started");
-
-
-                    }
-                });
+            public void onSuccess() {
+                connectionStatus.setText("Discovery Started");
             }
-        });
+
+            @Override
+            public void onFailure(int i) {
+                connectionStatus.setText("Discovery Not Started");
+
+
+            }
+        }));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,19 +104,35 @@ public class MainActivity extends AppCompatActivity {
                 manager.connect(channel,config,new WifiP2pManager.ActionListener() {
                     @Override
                     public void onSuccess() {
-                        connectionStatus.setText("Good Connect to" + device.deviceAddress);
+                        connectionStatus.setText(new StringBuilder().append(getString(R.string.gooCon)).append(device.deviceAddress).toString());
 
                     }
 
                     @Override
                     public void onFailure(int i) {
-                        connectionStatus.setText("Bad Connect");
+                        connectionStatus.setText(R.string.badCon);
 
                     }
                 });
 
             }
         });
+
+        sendBtn.setOnClickListener(view -> {
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    String msg = writeMsg.getText().toString();
+    executorService.execute(new Runnable() {
+        @Override
+                public void run(){
+            if(msg!=null && isHost) {
+                serverClass.write(msg.getBytes());
+            }else if(msg!=null && !isHost) {
+                clientClass.write(msg.getBytes());
+            }
+        }
+
+    });
+});
     }
 
 
@@ -161,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 listView.setAdapter(adapter);
 
                 if(peers.size() == 0){
-                    connectionStatus.setText("No Device Found");
+                    connectionStatus.setText(R.string.missDevice);
                     return;
                 }
 
@@ -175,10 +190,17 @@ public class MainActivity extends AppCompatActivity {
             final InetAddress groupOwnerAddress = wifiGroup.groupOwnerAddress;
             if(wifiGroup.groupFormed && wifiGroup.isGroupOwner)
             {
-                connectionStatus.setText("host");
+                connectionStatus.setText(R.string.hostStat);
+                isHost = true;
+                serverClass = new ServerClass();
+                serverClass.start();
             }else if (wifiGroup.groupFormed)
             {
-                connectionStatus.setText("client");
+                connectionStatus.setText(R.string.client);
+                isHost = false;
+                clientClass = new ClientClass(groupOwnerAddress);
+                clientClass.start();
+
             }
         }
     };
@@ -201,6 +223,17 @@ public class MainActivity extends AppCompatActivity {
         private OutputStream outputStream;
         private ServerSocket serverSocket;
 
+        public void write(byte[] bytes)
+        {
+            try {
+                outputStream.write(bytes);
+            }catch (IOException e){
+                e.printStackTrace();
+
+            }
+
+        }
+
         @Override
         public void run() {
             try {
@@ -211,40 +244,34 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                ;
+
             }
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
+            executorService.execute(() -> {
 
-                    byte[] buffer = new byte[1024];
-                    int bytes;
+                byte[] buffer = new byte[1024];
+                int bytes;
 
-                    while (socket != null) {
-                        try {
-                            bytes = inputStream.read(buffer);
-                            if (bytes > 0) {
-                                int finalBytes = bytes;
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String tempMSG = new String(buffer, 0, finalBytes);
-                                        msg_box.setText(tempMSG);
+                while (socket != null) {
+                    try {
+                        bytes = inputStream.read(buffer);
+                        if (bytes > 0) {
+                            int finalBytes = bytes;
+                            handler.post(() -> {
+                                String tempMSG = new String(buffer, 0, finalBytes);
+                                msg_box.setText(tempMSG);
 
 
-                                    }
-                                });
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            });
                         }
-
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
                 }
+
             });
         }
     }
@@ -254,6 +281,16 @@ public class MainActivity extends AppCompatActivity {
         private InputStream inputStream;
         private OutputStream outputStream;
 
+        public void write(byte[] bytes)
+        {
+            try {
+                outputStream.write(bytes);
+            }catch (IOException e){
+                e.printStackTrace();
+
+            }
+
+        }
 
         public ClientClass(InetAddress hostAddress) {
             hostAdd = hostAddress.getHostAddress();
@@ -269,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 outputStream = socket.getOutputStream();
 
             }catch (IOException e){
-                e.printStackTrace();;
+                e.printStackTrace();
             }
 
 
@@ -277,35 +314,29 @@ public class MainActivity extends AppCompatActivity {
             Handler handler = new Handler(Looper.getMainLooper());
 
 
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
+            executorService.execute(() -> {
 
-                    byte[] buffer = new byte[1024];
-                    int bytes;
+                byte[] buffer = new byte[1024];
+                int bytes;
 
-                    while (socket!=null){
-                        try{
-                            bytes = inputStream.read(buffer);
-                            if(bytes>0){
-                                int finalBytes = bytes;
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String tempMSG = new String(buffer,0,finalBytes);
-                                        msg_box.setText(tempMSG);
+                while (socket!=null){
+                    try{
+                        bytes = inputStream.read(buffer);
+                        if(bytes>0){
+                            int finalBytes = bytes;
+                            handler.post(() -> {
+                                String tempMSG = new String(buffer,0,finalBytes);
+                                msg_box.setText(tempMSG);
 
 
-                                    }
-                                });
-                            }
-                        }catch (IOException e){
-                            e.printStackTrace();
+                            });
                         }
-
+                    }catch (IOException e){
+                        e.printStackTrace();
                     }
 
                 }
+
             });
         }
     }

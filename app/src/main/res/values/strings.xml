@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Fluke</string>
+    <string name="client">client</string>
+    <string name="hostStat">host</string>
+    <string name="missDevice">No Device Found</string>
+    <string name="gooCon">Good Connect to</string>
+    <string name="badCon">Bad Connect</string>
 </resources>
