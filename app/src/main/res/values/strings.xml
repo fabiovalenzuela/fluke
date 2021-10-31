@@ -5,4 +5,6 @@
     <string name="missDevice">No Device Found</string>
     <string name="gooCon">Good Connect to</string>
     <string name="badCon">Bad Connect</string>
+    <string name="discstart">Discovery Started</string>
+    <string name="discnostart">Discovery Not Started</string>
 </resources>
