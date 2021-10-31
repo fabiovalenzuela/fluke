@@ -1,5 +1,6 @@
 package com.example.fluke;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
         this.activity = activity;
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
