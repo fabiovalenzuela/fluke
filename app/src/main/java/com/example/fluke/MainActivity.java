@@ -158,9 +158,12 @@ public class MainActivity extends AppCompatActivity {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     String msg = writeMsg.getText().toString();
     executorService.execute(() -> {
-if(msg!=null && isHost) {
-    serverClass.write(msg.getBytes());
-}else if(msg!=null && !isHost) {
+        if(connectionStatus.getText()!="host" || connectionStatus.getText()!="client"){
+            return;
+        }
+        else if(msg!=null && isHost) {
+            serverClass.write(msg.getBytes());
+        } else if(msg!=null && !isHost) {
     clientClass.write(msg.getBytes());
 }
 });
