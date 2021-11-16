@@ -33,17 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:background="@color/design_default_color_primary"
             android:text="DISCOVER" />
 
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/peerLV"
-        android:layout_width="match_parent"
-        android:layout_height="234dp"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/holo_purple"/>
 
     <TextView
         android:id="@+id/msgTV"
@@ -57,15 +49,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ListView
+            android:id="@+id/peerLV"
+            android:layout_width="match_parent"
+            android:layout_height="234dp"
+            android:background="@android:color/holo_blue_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
         <EditText
             android:id="@+id/msgET"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:alpha="1"
             android:ems="10"
+            android:hint="Enter Text Here!"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendBT"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
@@ -75,8 +79,10 @@
             android:src="@android:drawable/ic_menu_send"
             app:layout_constraintBottom_toBottomOf="@+id/msgET"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </LinearLayout>
