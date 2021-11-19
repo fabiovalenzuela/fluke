@@ -2,7 +2,7 @@
 A social media application designed to connect local individuals with others they wouldn't expect to interact with. 
 
 ## How to install Fluke
-Download the [apk](https://www.example.com) file on an android device click on the file and install it.
+Download the [apk](https://github.com/fabiovalenzuela/fluke/releases/download/v1.0.0/Fluke.apk) file on an android device click on the file and install it.
 
 ## How to use Fluke
 
