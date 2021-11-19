@@ -16,4 +16,4 @@ If Wi-Fi is not enabled tap on the Wi-Fi button to enable Wi-Fi on. After this t
 Once a list appears on the display *on only one device click the name of the other device to pair both phones*.
 
 ### step 4
-once the opposite device says host the pairing process was successful and no messaging is now possible between devices.
+once the opposite device says host the pairing process was successful and now messaging is now possible between devices.
